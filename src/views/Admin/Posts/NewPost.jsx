@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { withAddPost } from 'providers/posts';
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 
-import Settings from "@material-ui/icons/Settings";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Explore from "@material-ui/icons/Explore";
 import Header from "components/Front/Header/Header.jsx";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -48,6 +46,7 @@ class NewPost extends Component {
   constructor(props){
     super(props);
     this.state = {
+      title: "",
       editorState: EditorState.createEmpty(),
       tags:[],
       classicModal: false,
@@ -55,6 +54,8 @@ class NewPost extends Component {
       smallModal: false
     }
     this.handleTags = this.handleTags.bind(this);
+    this.onTitleChange = this.onTitleChange.bind(this);
+    this.onPublish = this.onPublish.bind(this);
   }
   handleClickOpen(modal) {
     var x = [];
@@ -66,6 +67,12 @@ class NewPost extends Component {
     x[modal] = false;
     this.setState(x);
   }
+  onTitleChange(event) {
+    event.preventDefault();
+    this.setState({
+      title:event.target.value
+    });
+  }
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
@@ -73,6 +80,13 @@ class NewPost extends Component {
   };
   handleTags(regularTags) {
     this.setState({ tags: regularTags });
+  }
+  onPublish() {
+    console.log("ok");
+    this.props.addPost({
+      title: this.state.title,
+      content: this.state.editorState.getCurrentContent().getPlainText()
+    });
   }
   render() {
     const { editorState } = this.state;
@@ -90,7 +104,9 @@ class NewPost extends Component {
                 </Button>
               </ListItem>
               <ListItem className={classes.listItem}>
-                <Button type="button" color="transparent" className={classes.navLink}>
+                <Button type="button" color="transparent" className={classes.navLink}
+                  onClick={this.onPublish}
+                >
                     Publish
                 </Button>
               </ListItem>
@@ -110,7 +126,8 @@ class NewPost extends Component {
                 fullWidth: true,
               }}
               inputProps={{
-                placeholder: "Add Title"
+                placeholder: "Add Title",
+                onChange:(event)=>this.onTitleChange(event)
               }}
             />
             <CustomInput
@@ -262,4 +279,4 @@ class NewPost extends Component {
   }
 }
 
-export default withStyles(newPostStyle)(NewPost);
+export default withAddPost(withStyles(newPostStyle)(NewPost));

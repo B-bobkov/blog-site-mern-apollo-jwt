@@ -1,4 +1,6 @@
 import React from "react";
+import { withPosts } from 'providers/posts';
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
@@ -28,6 +30,8 @@ class BlogPostsPage extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    const { posts, postsLoading } = this.props;
+
     return (
       <div>
         <Header
@@ -54,7 +58,7 @@ class BlogPostsPage extends React.Component {
         <div className={classes.main}>
           <div className={classes.container}>
             <SectionInterested />
-            <SectionPills />
+            <SectionPills postsLoading={postsLoading} posts={posts}/>
           </div>
           <SectionImage />
           <SubscribeLine />
@@ -112,4 +116,5 @@ class BlogPostsPage extends React.Component {
   }
 }
 
-export default withStyles(blogPostsPageStyle)(BlogPostsPage);
+// export default withStyles(blogPostsPageStyle)(withPosts(BlogPostsPage));
+export default withPosts(withStyles(blogPostsPageStyle)(BlogPostsPage));

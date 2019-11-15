@@ -1,13 +1,14 @@
 import React from "react";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
+import { withPosts } from 'providers/posts';
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
-import Favorite from "@material-ui/icons/Favorite";
+// import Favorite from "@material-ui/icons/Favorite";
 import Close from "@material-ui/icons/Close";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -35,14 +36,22 @@ class AllPosts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: dataTable.dataRows.map((prop, key) => {
+      data: []
+    }
+  }
+  componentDidMount() {
+    const { posts, postsLoading } = this.props;
+    if(!postsLoading && posts.length > 0) {
+    this.setState({
+      data: posts.map(post => {
+        let key = post._id;
         return {
           id: key,
-          checkbox: prop[0],
-          name: prop[1],
-          position: prop[2],
-          office: prop[3],
-          age: prop[4],
+          checkbox: <Checkbox />,
+          name: post.title,
+          position: post._id,
+          office: "",
+          age: "",
           actions: (
             // we've added some custom button actions
             <div className="actions-right">
@@ -54,15 +63,8 @@ class AllPosts extends React.Component {
                 onClick={() => {
                   let obj = this.state.data.find(o => o.id === key);
                   alert(
-                    "You've clicked EDIT button on \n{ \nName: " +
-                      obj.name +
-                      ", \nposition: " +
-                      obj.position +
-                      ", \noffice: " +
-                      obj.office +
-                      ", \nage: " +
-                      obj.age +
-                      "\n}."
+                    "You've clicked EDIT button on \n{ \n_id: " +
+                      obj.id 
                   );
                 }}
                 color="warning"
@@ -97,7 +99,8 @@ class AllPosts extends React.Component {
           )
         };
       })
-    };
+    });
+  }
   }
   render() {
     const { classes } = this.props;
@@ -166,4 +169,4 @@ class AllPosts extends React.Component {
   }
 }
 
-export default withStyles(styles)(AllPosts);
+export default withPosts(withStyles(styles)(AllPosts));
