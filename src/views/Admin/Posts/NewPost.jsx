@@ -26,6 +26,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 // import draftToHtml from 'draftjs-to-html';
+import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 // import headerLinksStyle from "assets/jss/material-kit-pro-react/components/headerLinksStyle.jsx";
 import newPostStyle from "assets/jss/material-dashboard-pro-react/views/admin/newPostStyle.jsx";
@@ -82,10 +83,10 @@ class NewPost extends Component {
     this.setState({ tags: regularTags });
   }
   onPublish() {
-    console.log("ok");
+    //console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())));
     this.props.addPost({
       title: this.state.title,
-      content: this.state.editorState.getCurrentContent().getPlainText()
+      content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
     });
   }
   render() {

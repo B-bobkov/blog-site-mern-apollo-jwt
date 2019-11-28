@@ -29,6 +29,8 @@ import ArtTrack from "@material-ui/icons/ArtTrack";
 import ViewQuilt from "@material-ui/icons/ViewQuilt";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Fingerprint from "@material-ui/icons/Fingerprint";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import LockOpen from "@material-ui/icons/LockOpen";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import Store from "@material-ui/icons/Store";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -125,7 +127,10 @@ function HeaderLinks({ ...props }) {
               <PersonAdd className={classes.dropdownIcons} /> Signup
             </Link>,
             <Link to="/dashboard" className={classes.dropdownLink}>
-              <Fingerprint className={classes.dropdownIcons} /> Dashboard
+              <DashboardIcon className={classes.dropdownIcons} /> Dashboard
+            </Link>,
+            <Link to="/" className={classes.dropdownLink}>
+              <LockOpen className={classes.dropdownIcons} /> Logout
             </Link>
           ]}
         />

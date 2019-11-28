@@ -21,6 +21,9 @@ import SectionComments from "./Sections/SectionComments.jsx";
 import SectionSimilarStories from "./Sections/SectionSimilarStories.jsx";
 
 import blogPostPageStyle from "assets/jss/material-kit-pro-react/views/blogPostPageStyle.jsx";
+// import { GET_POST } from "../../providers/posts/GetPost.js";
+import {GET_POST} from "providers/posts/GetPost.js";
+import { Query } from 'react-apollo';
 
 class BlogPostPage extends React.Component {
   componentDidMount() {
@@ -58,6 +61,10 @@ class BlogPostPage extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    // const userName = this.props.match.params.URL_Param;
+    let pathname=this.props.location.pathname;
+    console.log(pathname.substr(pathname.lastIndexOf("/")+1));
+    const _id = pathname.substr(pathname.lastIndexOf("/")+1);
     return (
       <div>
         <Header
@@ -70,16 +77,23 @@ class BlogPostPage extends React.Component {
             color: "info"
           }}
         />
+        <Query query={GET_POST} variables={{ _id }}>
+
+        {({ data, loading, error }) => {
+
+          if (loading) return <div></div>
+          if (error) return <div>Error</div>
+
+          return (
         <Parallax image={require("assets/img/bg5.jpg")} filter="dark">
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem md={8} className={classes.textCenter}>
                 <h1 className={classes.title}>
-                  How We Built the Most Successful Castle Ever
+                  {data.post.title}
                 </h1>
                 <h4 className={classes.subtitle}>
-                  The last 48 hours of my life were total madness. This is what
-                  I did.
+                  Sub title
                 </h4>
                 <br />
                 <a
@@ -99,9 +113,27 @@ class BlogPostPage extends React.Component {
             </GridContainer>
           </div>
         </Parallax>
+        )
+
+      }}
+
+    </Query>
         <div className={classes.main} id="main">
           <div className={classes.container}>
-            <SectionText />
+          <Query query={GET_POST} variables={{ _id }}>
+
+{({ data, loading, error }) => {
+
+  if (loading) return <div></div>
+  if (error) return <div>Error</div>
+
+  return (
+            <SectionText title={data.post.title} content={data.post.content} />
+            )
+
+      }}
+
+    </Query>
             <SectionBlogInfo />
             <SectionComments />
           </div>

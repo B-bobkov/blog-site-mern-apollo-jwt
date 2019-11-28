@@ -22,33 +22,23 @@ function SectionText({ ...props }) {
     classes.imgRounded,
     classes.imgFluid
   );
+  const { title, content } = props;
   return (
     <div className={classes.section}>
+    
       <GridContainer justify="center">
         <GridItem xs={12} sm={8} md={8}>
           <h3 className={classes.title}>
-            The Castle Looks Different at Night...
+            {title}
           </h3>
-          <p>
-            This is the paragraph where you can write more details about your
-            product. Keep you user engaged by providing meaningful information.
-            Remember that by this time, the user is curious, otherwise he
-            wouldn't scroll to get here. Add a button if you want the user to
-            see more. We are here to make life better.
-            <br />
-            <br />
-            And now I look and look around and there’s so many Kanyes I've been
-            trying to figure out the bed design for the master bedroom at our
-            Hidden Hills compound... and thank you for turning my personal jean
-            jacket into a couture piece.
-          </p>
-          <Quote
+          <p dangerouslySetInnerHTML={{ __html: content }} />
+          {/* <Quote
             textClassName={classes.quoteText}
             text="“And thank you for turning my personal jean jacket into a couture piece.”"
             author="Kanye West, Producer."
-          />
+          /> */}
         </GridItem>
-        <GridItem xs={12} sm={10} md={10} className={classes.section}>
+        {/* <GridItem xs={12} sm={10} md={10} className={classes.section}>
           <GridContainer>
             <GridItem xs={12} sm={4} md={4}>
               <img src={blog4} alt="..." className={imgClasses} />
@@ -90,7 +80,7 @@ function SectionText({ ...props }) {
             Pablo the number 1 album in the world! I'm so proud of the nr #1
             song in the country. Panda! Good music 2016!
           </p>
-        </GridItem>
+        </GridItem> */}
       </GridContainer>
     </div>
   );

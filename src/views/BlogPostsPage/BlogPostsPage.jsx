@@ -117,4 +117,4 @@ class BlogPostsPage extends React.Component {
 }
 
 // export default withStyles(blogPostsPageStyle)(withPosts(BlogPostsPage));
-export default withPosts(withStyles(blogPostsPageStyle)(BlogPostsPage));
+export default withStyles(blogPostsPageStyle)(BlogPostsPage);

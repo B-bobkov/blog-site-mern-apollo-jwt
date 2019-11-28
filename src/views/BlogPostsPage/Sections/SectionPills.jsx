@@ -25,67 +25,79 @@ import office2 from "assets/img/examples/office2.jpg";
 import blog8 from "assets/img/examples/blog8.jpg";
 import cardProject6 from "assets/img/examples/card-project6.jpg";
 import cardBlog4 from "assets/img/examples/card-blog4.jpg";
-
 import sectionPillsStyle from "assets/jss/material-kit-pro-react/views/blogPostsSections/sectionPillsStyle.jsx";
+import {GET_POSTS} from "providers/posts/PostList.js";
+import { Query } from 'react-apollo';
 
 class SectionPills extends Component {
   showPosts(){
     const { classes } = this.props;
     const { posts, postsLoading } = this.props;
-    if(!postsLoading && posts.length > 0) {
-    return posts.map(post => {
-      return (
-      <Card key={post._id} plain blog className={classes.card}>
-        <GridContainer>
-          <GridItem xs={12} sm={2} md={2}>
-            <CardHeader image plain>
-              {/* <a href="post" onClick={e => e.preventDefault()}> */}
-              <a href="post">
-                <img src={cardBlog4} alt="..." />
-              </a>
-              <div
-                className={classes.coloredShadow}
-                style={{
-                  backgroundImage: `url(${cardBlog4})`,
-                  opacity: "1"
-                }}
-              />
-              <div
-                className={classes.coloredShadow}
-                style={{
-                  backgroundImage: `url(${cardBlog4})`,
-                  opacity: "1"
-                }}
-              />
-            </CardHeader>
-          </GridItem>
-          <GridItem xs={12} sm={10} md={10} style={{marginTop:-15}}>
-            <h3 className={classes.cardTitle}>
-              {/* <a href="/post" onClick={e => e.preventDefault()}> */}
-              <a href="/post">
-                {post.title}
-              </a>
-            </h3>
-            <p className={classes.description}>
-              {post.content}
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                {" "}
-                Read More{" "}
-              </a>
-            </p>
-            <p className={classes.author}>
-              by{" "}
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <b>Mike Butcher</b>
-              </a>{" "}
-              , 2 days ago
-            </p>
-          </GridItem>
-        </GridContainer>
-      </Card>
-      );
-    });
-   }
+    return (
+      <Query query={GET_POSTS}>
+        {({ data, loading, error }) => {
+            if (loading) return <div></div>
+            if (error) return <div>Error</div>
+            console.log(data);
+            if(!loading) {
+              if(data.posts.length > 0){
+                return data.posts.map(post => {
+                  return (
+                  <Card key={post._id} plain blog className={classes.card}>
+                    <GridContainer>
+                      <GridItem xs={12} sm={2} md={2}>
+                        <CardHeader image plain>
+                          {/* <a href="post" onClick={e => e.preventDefault()}> */}
+                          <a href={`post/${post._id}`}>
+                            <img src={cardBlog4} alt="..." />
+                          </a>
+                          <div
+                            className={classes.coloredShadow}
+                            style={{
+                              backgroundImage: `url(${cardBlog4})`,
+                              opacity: "1"
+                            }}
+                          />
+                          <div
+                            className={classes.coloredShadow}
+                            style={{
+                              backgroundImage: `url(${cardBlog4})`,
+                              opacity: "1"
+                            }}
+                          />
+                        </CardHeader>
+                      </GridItem>
+                      <GridItem xs={12} sm={10} md={10} style={{marginTop:-15}}>
+                        <h3 className={classes.cardTitle}>
+                          {/* <a href="/post" onClick={e => e.preventDefault()}> */}
+                          <a href={`post/${post._id}`}>
+                            {post.title}
+                          </a>
+                        </h3>
+                        <p className={classes.description}>
+                          Subtitle
+                          <a href="#pablo" onClick={e => e.preventDefault()}>
+                            {" "}
+                            Read More{" "}
+                          </a>
+                        </p>
+                        <p className={classes.author}>
+                          by{" "}
+                          <a href="#pablo" onClick={e => e.preventDefault()}>
+                            <b>Mike Butcher</b>
+                          </a>{" "}
+                          , 2 days ago
+                        </p>
+                      </GridItem>
+                    </GridContainer>
+                  </Card>
+                  );
+                });
+              }
+            }
+        }}
+      </Query>
+    );
   }
   render(){
   const { classes } = this.props;

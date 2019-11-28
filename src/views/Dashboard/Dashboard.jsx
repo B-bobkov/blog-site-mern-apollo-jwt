@@ -9,6 +9,7 @@ import { VectorMap } from "react-jvectormap";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
+import withAuth from '../../hoc/withAuth';
 
 // @material-ui/icons
 // import ContentCopy from "@material-ui/icons/ContentCopy";
@@ -591,4 +592,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withAuth(session => session && session.getCurrentUser)(withStyles(dashboardStyle)(Dashboard));
