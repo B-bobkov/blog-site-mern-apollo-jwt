@@ -9,7 +9,15 @@ import Signin from '../views/Pages/LoginPage';
 /* eslint-disable */
 const withAuth = conditionFunc => Component => props => {
 
-  if (props.unitTesting === 'true') {
+  if (typeof document !== 'undefined') {
+
+    const tokenExpired = Cookies.get('token');
+
+    if (tokenExpired == undefined) return <Redirect to="/pages/login-page" />
+    else return <Component {...props} />
+  }
+  
+  /* if (props.unitTesting === 'true') {
     return <Component {...props} />
   }
 
@@ -37,7 +45,7 @@ const withAuth = conditionFunc => Component => props => {
 
     </Query>
 
-  )
+  ) */
 
 };
 /* eslint-enable */

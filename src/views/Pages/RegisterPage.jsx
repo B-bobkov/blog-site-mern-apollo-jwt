@@ -69,6 +69,7 @@ class RegisterPage extends React.Component {
     });
   }
   onSignup(event, signupUser) {
+    console.log(this.state);
     event.preventDefault();
     signupUser().then(async ({ data }) => {
       Cookies.set('token', data.signupUser.token);

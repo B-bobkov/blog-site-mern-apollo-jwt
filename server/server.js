@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 var bodyParser = require('body-parser');
@@ -15,6 +16,22 @@ const app = express();
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+// JWT Middelware 
+// app.use(async (req, res, next) => {
+//     console.log(req.cookies);
+//     const token = req.cookies.token ? req.cookies.token : null;
+//     if (token !== null) {
+//         try {
+//             const currentUser = await jwt.verify(token, config.get('jwtPrivateKey'));
+//             req.currentUser = currentUser;
+//         } catch (err) {
+//             //   console.error(err);
+//             res.clearCookie('token');
+//         }
+//     }
+//     next();
+// });
 
 server.applyMiddleware({ app });
 

@@ -4,6 +4,9 @@ import ReactTable from "react-table";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { GET_ALL_USERS } from "queries";
+import { Query } from 'react-apollo';
+
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
@@ -21,6 +24,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import { dataTable } from "variables/general.jsx";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
+import { ok } from "assert";
 
 const styles = {
   cardIconTitle: {
@@ -34,6 +38,7 @@ class AllUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       data: dataTable.dataRows.map((prop, key) => {
         return {
           id: key,
@@ -95,7 +100,26 @@ class AllUsers extends React.Component {
           )
         };
       })
+      
     };
+    this.getUsers = this.getUsers.bind(this);
+  }
+  componentDidMount() {
+    this.getUsers();
+  }
+  getUsers () {
+    console.log("ok");
+    <Query query={GET_ALL_USERS}>
+
+      {({ data, loading, error }) => {
+
+        if (loading) return 
+        if (error) return 
+        console.log(data.getAllUsers.length);
+        return 
+      }}
+
+    </Query>
   }
   render() {
     const { classes } = this.props;
